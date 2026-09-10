@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --color-holo: #00f0ff;
+  --color-navy: #0f172a;
+  --color-plasma: #ff003c;
+  --color-aqua: #0ea5e9;
+  --color-amber: #facc15;
+  
+  --shadow-holo: 0 0 10px var(--color-holo);
+  --shadow-plasma: 0 0 15px var(--color-plasma);
+  
+  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-grid-shimmer: grid-shimmer 4s linear infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px var(--color-holo);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 20px var(--color-holo);
+    opacity: 0.8;
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes grid-shimmer {
+  0% { background-position: 0 0; }
+  100% { background-position: 50px 50px; }
+}
+
+@layer base {
+  body {
+    @apply bg-gray-950 text-gray-100 overflow-hidden font-mono selection:bg-holo selection:text-gray-950;
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: grid-shimmer 20s linear infinite;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-900/50 rounded;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-holo/40 rounded hover:bg-holo/70 transition-colors;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    @apply bg-transparent h-2 rounded cursor-pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    @apply w-full h-1 bg-gray-800 rounded;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @apply h-4 w-4 rounded-full bg-holo mt-[-6px] shadow-[0_0_8px_#00f0ff] transition-transform hover:scale-125;
+  }
+}
+
+@layer components {
+  .holo-panel {
+    @apply relative bg-gray-900/40 backdrop-blur-md border border-holo/30 rounded shadow-[0_0_15px_rgba(0,240,255,0.1)] overflow-hidden;
+  }
+  
+  .neon-border {
+    @apply border border-holo shadow-[0_0_10px_#00f0ff];
+  }
+  
+  .corner-bracket::before {
+    content: '';
+    @apply absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-holo rounded-tl-sm pointer-events-none;
+  }
+  .corner-bracket::after {
+    content: '';
+    @apply absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-holo rounded-br-sm pointer-events-none;
+  }
+  .corner-bracket-tr::before {
+    content: '';
+    @apply absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-holo rounded-tr-sm pointer-events-none;
+  }
+  .corner-bracket-bl::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-holo rounded-bl-sm pointer-events-none;
+  }
+}
