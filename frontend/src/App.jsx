@@ -15,7 +15,10 @@ import { MissionPlanningTab } from './tabs/MissionPlanningTab';
 import { FlightDynamicsTab } from './tabs/FlightDynamicsTab';
 import { TacticalMapTab } from './tabs/TacticalMapTab';
 
-const WS_URL = 'ws://localhost:8000/ws/twin';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'localhost:8000';
+const WS_URL = import.meta.env.PROD 
+  ? `wss://${BACKEND_URL}/ws/twin` 
+  : `ws://${BACKEND_URL}/ws/twin`;
 
 export default function App() {
   const { setConnected, updateTelemetry, setLatency, activePanel } = useTelemetryStore();
